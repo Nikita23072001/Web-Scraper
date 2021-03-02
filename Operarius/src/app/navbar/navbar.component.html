@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark app-navbar">
+  <a class="navbar-brand" routerLink="home">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapng se navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="offers">Show offers</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" routerLink="how-it-works">How It Works</a>
+        </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="faq">FAQ</a>
+      </li>
+      <!--
+        <li class="nav-item">
+          <a class="nav-link" href="#"></a>
+        </li>
+      -->
+      <li ngbDropdown class="nav-item dropdown">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+          <a class="dropdown-item" href="profile">Profile settings</a>
+          <a class="dropdown-item" routerLink="new-offer">Add offer</a>
+          <a  class="dropdown-item"  (click)="authService.SignOut()">
+            Log out
+            </a>
+            <a class="dropdown-item" routerLink="user-profile">User details</a>
+
+        </div>
+    </ul>
+    <!-- <form class="form-inline my-2 my-lg-0">
+      <button class="btn btn-primary my-2 my-sm-0" type="submit">Sign In</button>
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Sign Up</button>
+    </form>  -->
+  </div>
+</nav>

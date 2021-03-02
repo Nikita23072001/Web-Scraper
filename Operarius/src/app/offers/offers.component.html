@@ -1,0 +1,66 @@
+<h2>Offers</h2>
+<table datatable class="row-border hover">
+<thead>
+  <tr class='white'>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Location</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr  *ngFor="let Offer of list">
+    <td  >{{Offer.id}}</td>
+    <td>{{Offer.title}}</td>
+    <td>{{Offer.content}}</td>
+    <td>{{Offer.location}}</td>
+    <td ><a class="btn text-danger"  >Chat</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- <app-offer-detail [Offer]="selectedOffer"></app-offer-detail> -->
+<!-- <igx-input-group type="search" class="search">
+  <igx-prefix>
+      <igx-icon>search</igx-icon>
+  </igx-prefix>
+  <input #search igxInput placeholder="Search Contacts" [(ngModel)]="searchContact">
+  <igx-suffix *ngIf="search.value.length > 0" (click)="searchContact = null">
+      <igx-icon>clear</igx-icon>
+  </igx-suffix>
+</igx-input-group>
+
+<div class="list-sample">
+  <igx-list >
+      <igx-list-item isHeader="true">Contacts</igx-list-item>
+      <igx-list-item #item *ngFor="let Offer of offers | igxFilter: filterContacts;">
+          <div class="item-container">
+              <div class="contact">
+                  <div class="contact__info">
+                      <span class="name">{{ offer.id }}</span>
+                      <span class="phone">{{ offer.title }}</span>
+                  </div>
+              </div>
+          </div>
+      </igx-list-item>
+  </igx-list>
+</div> -->
+
+
+
+
+
+
+
+<!-- <h2>My Offers</h2>
+<ul class="offers">
+  <li *ngFor="let Offer of offers"
+    [class.selected]="offer === selectedOffer"
+    (click)="onSelect(Offer)">
+    <span class="badge">{{Offer.id}}</span> {{Offer.title}}
+  </li>
+</ul>
+ 
+<app-offer-detail [Offer]="selectedOffer"></app-offer-detail> -->
