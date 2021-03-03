@@ -1,6 +1,6 @@
 # from urllib.request import urlopen
 # from bs4 import BeautifulSoup
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 
 # a = '96231488' # Zmienić w przypadku gotowej strony
 # html = urlopen('https://www.ceneo.pl/'+a+'tab=reviews')
@@ -16,7 +16,7 @@ port=5000
 
 @app.route('/home')
 def index():
-    return 'Hello, World!'
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

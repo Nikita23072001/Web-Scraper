@@ -1,17 +1,9 @@
-<html>
-    <link rel="stylesheet" href="styles.css">
-    <head>
-        <title>
-            "Ceneo-Scrap"
-        </title>
-    </head>
-    <body>
-        <h1>"Witaj."</h1>
-        <h2 class="input">
-            <a>Input product code:</a>
-            <form>
-                <input type="number" id="number">
-            </form>
-        </h2>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}
+Home Page
+{% endblock %}
+
+{% block body %}
+<h1>Witamy na naszej stronie</h1>
+{% endblock %}
