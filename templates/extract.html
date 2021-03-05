@@ -6,13 +6,10 @@
 
 {% block body %}
 <div class="container">
-    <h1>Witamy na naszej stronie</h1>
-    <div class="padding"><p>Aplikacja została stworzona do zaliczenia Pracowni Programowania II
-         w przypadku używania tej aplikacji w innych celach niż podany tutaj będzie wiązać się
-          z konsekwencjami!!!</p></div><br>
-          <p>W sekcji produkty można zobaczyć dane na temat produktów
-               które już zostały wyszukiwane w przeszłości</p><br>
-            <p>W sekcji Extrakcja opinii można wpisać własny kod produktu do pobrania informacji</p>
-            <p>Powinne to być dane poprawne, gdyż pojawi się błąd w przypadku wprowadzania złych dannych</p>
+   <h1>Wprowadzenie kodu produktu ze strony Ceneo.pl</h1>
+   <form method="post">
+       <input type="number" name="product_code" placeholder="Wprowadź liczbę"><br>
+        <input type="submit" class="btn btn-success" value="Scrap!">
+   </form>
 </div>
 {% endblock %}

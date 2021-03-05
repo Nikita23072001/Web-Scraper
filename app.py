@@ -1,28 +1,34 @@
-# from urllib.request import urlopen
-# from bs4 import BeautifulSoup
-from flask import Flask, render_template, url_for
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+from flask import Flask, render_template, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-# a = '96231488' # Zmienić w przypadku gotowej strony
-# html = urlopen('https://www.ceneo.pl/'+a+'tab=reviews')
-# bs = BeautifulSoup(html.read(), 'html.parser')
-# naglowki = bs.find_all('.user-post user-post__card js_product-review')
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scrap.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class article(db.Model):
+class database_scrap(db.Model):
     id  = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    intro = db.Column(db.String(300), nullable=False)
-    text = db.Column(db.Text, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    product_code = db.Column(db.Integer, nullable=False)
+    revies = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
 
+    html = urlopen('https://www.ceneo.pl/'+product_code)
+    bs = BeautifulSoup(html.read(), 'html.parser')
+
     def __repr__(self):
-        return '<article %r>' % self.id 
+        return '<database_scrap %r>' % self.id 
+
+    def name_scrap(self):
+        return bs.find_all('h1')[0].get_text()
+
+    def reviews(self):
+        
+
 
 
 # for nr,x in enumerate(naglowki):
@@ -37,9 +43,13 @@ def index():
 def products():
     return render_template('products.html')
 
-@app.route('/extract')
+@app.route('/extract', methods=['POST','GET'])
 def extract():
-    return render_template('extract.html')
+    if request.method == "POST":
+        product_code = request.form['product_code']
+        name = 
+    else:
+        return render_template('extract.html')
 
 @app.route('/about')
 def about():
