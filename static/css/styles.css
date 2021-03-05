@@ -4,3 +4,11 @@ input[type=number] {
     margin: 8px 0;
     box-sizing: border-box;
   }
+
+.padding{
+  padding: 8px;
+}
+
+body{
+  background-color: bisque;
+}
