@@ -1,31 +1,93 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+import json
 
 html = urlopen('https://www.ceneo.pl/96961305/opinie-1')
 bs = BeautifulSoup(html.read(), 'html.parser')
-naglowki = bs.find_all('h1')
-opinie = bs.find_all(class_='js_product-reviews')
+
+class scrapper():
+    id = bs.find_all('div', class_='user-post')
+
+    def scrap(self)
+    # naglowki = bs.find_all('h1')
+    # author = bs.find_all(class_='user-post__author-name')
+    # recomend = bs.find_all(class_='user-post__author-recomendation')
+    # score = bs.find_all(class_='user-post__score-count')
+    # time = bs.find_all(class_='user-post__published')
+    # text = bs.find_all(class_='user-post__text')
+    # pluses = bs.find_all(class_='review-feature')
+    # usefulness = bs.find_all(class_='js_product-review-usefulness vote')
+    # bought = bs.find_all('em')
+
 file = open('scrapped.json', 'a', encoding='utf-8')
-
-for x in opinie:
-    file.write(x.get_text())
-
-file.close()
-
-print(naglowki[0].get_text())
+array = []
 
 
 
+def chomps(s):
+    return s.rstrip('\n')
 
-# <div class="product-top-2020__product-info__name-container">
-#                     <h1 class="product-top-2020__product-info__name js_product-h1-link js_product-force-scroll js_searchInGoogleTooltip default-cursor" data-onselect="true" data-tooltip-autowidth="true" productlink="#"> Xiaomi Redmi Note 9 Pro 6/128GB Szary</h1>
-#                     <div class="product-top-2020__product-info__icons">
-#         <div class="price-history">
-#                 <span class="link link--dark js_show-price-history-popup" data-google-action="GoTo_PrcHis" data-google-label="Button_scroll_PrcHis" data-hint="Historia cen">
-#                     <span data-icon=""></span>
-#                 </span>
-#             <span class="context-help scoreHint" data-offset-x="0" data-offset-y="25" data-dtr="true">?<span class="hidden js_context-datahint">Historia cen dostępna jest po zalogowaniu się. Dzięki niej możesz sprawdzić aktualny trend cenowy, wzrost lub spadek ceny oraz sezonowe obniżki cen produktów.</span></span>
-#         </div>
-#         <span id="clipboard-toggle-93700228" data-category="Product - Add to Wishlist" data-action="Click Add Favorite - product" data-label="Smartfony" data-pid="93700228" data-cid="471" data-hint="Ulubione" class="add-to-favorite js_no-conv js_wishlist-toggle js_sa-wishlist-item js_gtm_wishlist-toggle "></span>
-#     </div>
-# </div>
+# for i in range(1):
+
+    # t = list(map(lambda x:x.strip(), list(author[i].get_text())))
+    # a = ''
+    # array.append(author[0].get_text().replace("\n", ""))
+    # array.append(recomend[0].get_text().replace("\n", ""))
+    # array.append(text[0].get_text().replace("\n", ""))
+    # array.append(usefulness[0].get_text().replace("\n", ""))
+
+    # for j in t:
+    #     a += str(j)
+    # array.append(a)
+
+    # t = list(map(lambda x:x.strip(), list(recomend[i].get_text())))
+    # a = ''
+
+    # for j in t:
+    #     a += str(j)
+    # array.append(a)
+
+    # t = list(map(lambda x:x.strip(), list(score[i].get_text())))
+    # a = ''
+
+    # for j in t:
+    #     a += str(j)
+    # array.append(a)
+
+    # t = list(map(lambda x:x.strip(), list(time[i].get_text())))
+    # a = ''
+
+    # for j in t:
+    #     a += str(j)
+    # array.append(a)
+
+    # t = list(map(lambda x:x.strip(), list(text[i].get_text())))
+    # a = ''
+
+    # for j in t:
+    #     a += str(j)
+    # array.append(a)
+
+    # t = list(map(lambda x:x.strip(), list(pluses[i].get_text())))
+    # a = ''
+
+    # for j in t:
+    #     a += str(j)
+    # array.append(a)
+
+    # t = list(map(lambda x:x.strip(), list(usefulness[i].get_text())))
+    # a = ''
+
+    # for j in t:
+    #     a += ' ' + str(j)
+    # array.append(a)
+
+    # if bought[i] == '':
+    #     array.append('0')
+    # else:
+    #     array.append('1')
+
+
+# file.write('1')
+# file.close()
+
