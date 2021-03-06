@@ -17,16 +17,16 @@ class database_scrap(db.Model):
     revies = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
 
-    html = urlopen('https://www.ceneo.pl/'+product_code)
-    bs = BeautifulSoup(html.read(), 'html.parser')
+    # html = urlopen('https://www.ceneo.pl/'+product_code)
+    # bs = BeautifulSoup(html.read(), 'html.parser')
 
     def __repr__(self):
         return '<database_scrap %r>' % self.id 
 
-    def name_scrap(self):
-        return bs.find_all('h1')[0].get_text()
+    # def name_scrap(self):
+    #     return bs.find_all('h1')[0].get_text()
 
-    def reviews(self):
+    # def reviews(self):
         
 
 
@@ -43,13 +43,13 @@ def index():
 def products():
     return render_template('products.html')
 
-@app.route('/extract', methods=['POST','GET'])
-def extract():
-    if request.method == "POST":
-        product_code = request.form['product_code']
-        name = 
-    else:
-        return render_template('extract.html')
+# @app.route('/extract', methods=['POST','GET'])
+# def extract():
+#     if request.method == "POST":
+#         product_code = request.form['product_code']
+#         name = 
+#     else:
+#         return render_template('extract.html')
 
 @app.route('/about')
 def about():
