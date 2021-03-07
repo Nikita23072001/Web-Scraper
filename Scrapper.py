@@ -20,6 +20,7 @@ class Scrapper():
                 self.pages_number = math.ceil(int(re.findall('\d+', self.ops[2].get_text())[0])/10)
 
             self.naglowki = self.bs.find('h1').get_text()
+            print(self.naglowki)
 
 
             self.file = open(f'{self.product_code}.json', 'a', encoding='utf-8')
@@ -94,3 +95,6 @@ class Scrapper():
 
         self.file.write(str(self.array))
         self.file.close()
+
+
+Scrapper('99525427').main_func()

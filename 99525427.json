@@ -1,0 +1,70 @@
+[
+    {
+        "Author": "m...6",
+        "bought": true,
+        "buy_time": "2020-12-20 11:56:52",
+        "id": 13688969,
+        "negatives": [],
+        "positives": [
+            "chłonność",
+            "dopasowanie",
+            "wygoda"
+        ],
+        "post_time": "2020-12-31 10:11:06",
+        "recomend": "Polecam",
+        "score": "5/5",
+        "text": "Co tu dużo mówić: najlepsze pieluchy na rynku",
+        "vote_n": 0,
+        "vote_y": 0
+    },
+    {
+        "Author": "M...o",
+        "bought": true,
+        "buy_time": "2021-02-04 12:31:26",
+        "id": 13936589,
+        "negatives": [],
+        "positives": [
+            "chłonność",
+            "dopasowanie",
+            "wygoda"
+        ],
+        "post_time": "2021-02-11 12:13:58",
+        "recomend": "Polecam",
+        "score": "5/5",
+        "text": "Duże opakowanie, dobra cena",
+        "vote_n": 0,
+        "vote_y": 0
+    },
+    {
+        "Author": "Batman1910",
+        "bought": true,
+        "buy_time": "2020-12-29 10:52:13",
+        "id": 13705180,
+        "negatives": [],
+        "positives": [],
+        "post_time": "2021-01-04 10:47:29",
+        "recomend": "Polecam",
+        "score": "5/5",
+        "text": "Ok",
+        "vote_n": 0,
+        "vote_y": 0
+    },
+    {
+        "Author": "n...k",
+        "bought": true,
+        "buy_time": "2020-12-10 20:20:42",
+        "id": 13587214,
+        "negatives": [],
+        "positives": [
+            "chłonność",
+            "dopasowanie",
+            "wygoda"
+        ],
+        "post_time": "2020-12-16 09:22:29",
+        "recomend": "Polecam",
+        "score": "5/5",
+        "text": "Ok",
+        "vote_n": 0,
+        "vote_y": 0
+    }
+]
