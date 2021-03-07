@@ -1,26 +1,33 @@
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
-import json, codecs
-import math
-import re
+import json, math, re, sys
+
 
 class Scrapper():
-
     def __init__(self, product_code):
 
         self.product_code = int(product_code)
-        self.html_first = urlopen(f'https://www.ceneo.pl/{self.product_code}/opinie-1')
-        self.bs = BeautifulSoup(self.html_first.read(), 'html.parser')
-        self.ops = self.bs.find_all('span', class_="page-tab__title js_prevent-middle-button-click")
+        try:
+            self.html_first = urlopen(f'https://www.ceneo.pl/{self.product_code}')
+            self.bs = BeautifulSoup(self.html_first.read(), 'html.parser')
+            self.error = self.bs.find('abbr', title="Błąd 404")
+            self.ops = self.bs.find_all('span', class_="page-tab__title js_prevent-middle-button-click")
+            print(self.ops)
+            if re.findall('\d+', self.ops[2].get_text()) == []:
+                print("Nie ma")
+                self.pages_number = 0
+            else:
+                self.pages_number = math.ceil(int(re.findall('\d+', self.ops[2].get_text())[0])/10)
 
-        self.pages_number = math.ceil(int(re.findall('\d+', self.ops[2].get_text())[0])/10)
-
-        self.naglowki = self.bs.find('h1').get_text()
+            self.naglowki = self.bs.find('h1').get_text()
 
 
-        self.file = open(f'{self.product_code}.json', 'a', encoding='utf-8')
+            self.file = open(f'{self.product_code}.json', 'a', encoding='utf-8')
 
-        self.array =[]
+            self.array =[]
+        except:
+            print("Strona nie istnieje, lub podałeś błędny kod produktu")
+            sys.exit(1)
 
     def data(self, block):
     # for block in blocks:
@@ -69,6 +76,7 @@ class Scrapper():
         "post_time":post_time, "buy_time":buy_time, "positives":pluses, "negatives":minus,
         "vote_y":int(vote_y), "vote_n":int(vote_n), "bought":bought})
 
+    
     def main_func(self):
         for i in range(1, self.pages_number+1):
             html = Request(f'https://www.ceneo.pl/{self.product_code}/opinie-{i}')
@@ -76,12 +84,9 @@ class Scrapper():
             self.bs = BeautifulSoup(webpage.read(), 'html.parser')
             blocks = self.bs.find_all('div', class_='user-post user-post__card js_product-review')
             print(webpage.geturl())
-            if blocks[i].find(class_='user-post__author-name') == None:
-                break
-            # if page_number > self.pages_number:
-            #     break
-            else:
-                for block in blocks:
+
+            # if blocks[i].find(class_='user-post__author-name') == None:
+            for block in blocks:
                     self.data(block)
 
 
@@ -89,3 +94,6 @@ class Scrapper():
 
         self.file.write(str(self.array))
         self.file.close()
+
+
+Scrapper('12321').main_func()
