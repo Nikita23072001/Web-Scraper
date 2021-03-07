@@ -94,6 +94,3 @@ class Scrapper():
 
         self.file.write(str(self.array))
         self.file.close()
-
-
-Scrapper('12321').main_func()
