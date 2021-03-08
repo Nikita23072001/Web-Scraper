@@ -6,7 +6,12 @@ import json, math, re, sys
 class Scrapper():
     def __init__(self, product_code):
 
-        self.product_code = int(product_code)
+        try:
+            self.product_code = int(product_code)
+            self.error = 0
+        except:
+            print ('Pole jest Puste!')
+            self.error = 1
         try:
             self.html_first = urlopen(f'https://www.ceneo.pl/{self.product_code}')
             self.bs = BeautifulSoup(self.html_first.read(), 'html.parser')
@@ -24,6 +29,7 @@ class Scrapper():
             self.array =[]
         except:
             print("Strona nie istnieje, lub podałeś błędny kod produktu")
+            self.error = 1
             sys.exit(1)
 
     def data(self, block):

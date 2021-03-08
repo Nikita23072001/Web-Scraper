@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import Scrapper, math
+import Scrapper, math, json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scrap.db'
@@ -20,30 +20,33 @@ products_dict = {}
 
 #     def __repr__(self):
 #         return '<database_scrap %r>' % self.id 
+@app.template_filter('count')
+def count(key):
+    score_sum = 0
+    minus = 0
+    plus = 0
+    file = open(f'products/{key}.json')
+    data = [el for el in json.load(file)]
+    try:
+        opinions = int(Scrapper.Scrapper(key).ops[0])
+    except:
+        return 0, 0, 0, 0
+    for i in data:
+        score_sum += eval(i['score'])
 
-class posts():
-    def __init__(self):
-        self.score_sum = 0
-         self.data = []
-         self.minus = 0
-         self.plus = 0
+        if i['negatives'] == []:
+            minus += 0
+        else:
+            minus += len(i['negatives'])
 
-    def count(self):
-        for (key,value) in products_dict.items():
-            file = open('products/' + key + '.json')
-            self.data = [el for el in json.load(file)["score"]]
-            for i in self.data:
-                self.score_sum += eval(i['score'])
+        if i['positives'] == []:
+            plus += 0
+        else:
+            plus += len(i['positives'])
+        
+    # score_sum = round(score_sum/len(data)*5, 2)
 
-                if i['negatives'] == []:
-                    continue
-                else:
-                    self.minus += len(i['negatives'])
-
-                if i['positives'] == []:
-                    continue
-                else:
-                    self.plus += len(i['positives'])
+    return f"Liczba Opinii: {opinions} Średnia Ocena:  {round(score_sum/len(data)*5, 2)}, Liczba Wad: {minus}, Liczba Zalet: {plus}"
 
 
 @app.route('/')
@@ -53,20 +56,25 @@ def index():
 
 @app.route('/products')
 def products():
-    # opinions = int(Scrapper.Scrapper(key).ops[0])
-    return render_template('products.html')
+    return render_template('products.html', count = count, products_dict=products_dict)
 
 
 @app.route('/extract', methods=['POST','GET'])
 def extract():
     if request.method == "POST":
-        product_code = request.form['product_code']
-        Scrapper.Scrapper(product_code).main_func()
-        products_dict.update({product_code:Scrapper.Scrapper(product_code).naglowki})
-    # return render_template("extract.html")
-        return redirect('/products')
+        try:
+            product_code = request.form['product_code']
+            Scrapper.Scrapper(product_code).main_func()
+            products_dict.update({product_code:Scrapper.Scrapper(product_code).naglowki})
+            return redirect('/products')
+        except:
+            return redirect('/ERROR')
     else:
         return render_template('extract.html')
+
+@app.route('/ERROR')
+def error():
+    return render_template("error.html")
 
 @app.route('/about')
 def about():
