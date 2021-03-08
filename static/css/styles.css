@@ -12,3 +12,7 @@ input[type=number] {
 body{
   background-color: bisque;
 }
+
+.btn.btn-danger{
+  width: 100%;
+}
