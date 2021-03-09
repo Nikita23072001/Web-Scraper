@@ -6,11 +6,14 @@
 
 {% block body %}
 <div class="container">
-    <h1>Wyscrapowane wcześniej produkty</h1>
-    <table width="100%" cellspacing="0" border="1" >
+    <hr><br> 
+    <form id="frm-example" action="/nosuchpage" method="POST">
+    <table  class="display select" cellspacing="0" width="100%" border="2">
+        <thead>
         <tr align="center">
+            <th><input name="select_all" value="1" type="checkbox"></th>
             <th>
-                Nickname
+                Name
             </th>
             <th> 
                 ID  
@@ -46,60 +49,115 @@
                 Treść opinii
             </th>
         </tr>
+    </thead>
+    <tfoot>
+        <tr align="center">
+            <th></th>
+            <th>
+                Name
+            </th>
+            <th> 
+                ID  
+            </th>
+            <th>
+                Data Publikacji
+            </th>
+            <th>
+                Zakupiony?
+            </th>
+            <th>
+                Data Zakupu
+            </th>
+            <th>
+                Rekomendacje
+            </th>
+            <th>
+                Ocena
+            </th>
+            <th>
+                Zalety
+            </th>
+            <th>
+                Wady
+            </th>
+            <th>
+                Przydatna Opinia 
+            </th>
+            <th>
+                Nieprzydatna 
+            </th>
+            <th>
+                Treść opinii
+            </th>
+        </tr>
+    </tfoot>
         
-    {% for el in data %}
+    {% for el in range(data|length) %}
+    <tbody>
     <tr align="center">
+        <td></td>
         <td>
-            {{ el['Author'] }}
+            {{ data[el]['Author'] }}
         </td>
         <td> 
-            {{ el['id'] }}
+            {{ data[el]['id'] }}
         </td>
         <td>
-            {{ el['post_time'] }}
+            {{ data[el]['post_time'] }}
         </td>
         <td>
-            {% if el['bought'] != 0 %}
-                {{ el['bought'] }}
+            {% if data[el]['bought'] != 0 %}
+                {{ data[el]['bought'] }}
             {% endif %}
         </td>
         <td>
-            {% if el['bought'] != 0 %}
-                {{ el['buy_time'] }}
+            {% if data[el]['bought'] != 0 %}
+                {{ data[el]['buy_time'] }}
             {% endif %}
         </td>
         <td>
             
-            {{ el['recomend'] }}
+            {{ data[el]['recomend'] }}
         </td>
         <td>
-            {{ el['score'] }}
+            {{ data[el]['score'] }}
         </td>
         <td>
-            {% if el['positives'] != [] %}
-                {% for i in el['positives'] %}
+            {% if data[el]['positives'] != [] %}
+                {% for i in data[el]['positives'] %}
                     {{ i }}
                 {% endfor %}
             {% endif %}
         </td>
         <td>
-            {% if el['negatives'] != [] %}
-                {% for i in el['negatives'] %}
+            {% if data[el]['negatives'] != [] %}
+                {% for i in data[el]['negatives'] %}
                     {{ i }}
                 {% endfor %}
             {% endif %}
         </td>
         <td>
-            {{ el['vote_y'] }} 
+            {{ data[el]['vote_y'] }} 
         </td>
         <td>
-            {{ el['vote_n'] }} 
+            {{ data[el]['vote_n'] }} 
         </td>
         <td>
-            
+            <button style="text-align:center; color:#727272; padding: 2px;"><a href="#" data-featherlight="#bio-name">Text</a></button>
+            <div style="display:none;">
+                <div id="bio-name">
+                <h3>Text</h3>
+                <p style="font-family:Lato; font-weight:500; font-style:normal; font-size:12px; letter-spacing:.4px; line-height:2.18em; color:#999999;" !important>
+                    {{ data[el]['text'] }}
+                </p>
+                </div>
+            </div>
         </td>
     </tr>
+    </tbody>
     {% endfor %}
     </table>
+    <hr>
+    </form>
 </div>
 {% endblock %}
