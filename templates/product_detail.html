@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Products
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Wyscrapowane wcześniej produkty</h1>
+    <table width="100%" cellspacing="0" border="1" >
+        <tr align="center">
+            <th>
+                Nickname
+            </th>
+            <th> 
+                ID  
+            </th>
+            <th>
+                Data Publikacji
+            </th>
+            <th>
+                Zakupiony?
+            </th>
+            <th>
+                Data Zakupu
+            </th>
+            <th>
+                Rekomendacje
+            </th>
+            <th>
+                Ocena
+            </th>
+            <th>
+                Zalety
+            </th>
+            <th>
+                Wady
+            </th>
+            <th>
+                Przydatna Opinia 
+            </th>
+            <th>
+                Nieprzydatna 
+            </th>
+            <th>
+                Treść opinii
+            </th>
+        </tr>
+        
+    {% for el in data %}
+    <tr align="center">
+        <td>
+            {{ el['Author'] }}
+        </td>
+        <td> 
+            {{ el['id'] }}
+        </td>
+        <td>
+            {{ el['post_time'] }}
+        </td>
+        <td>
+            {% if el['bought'] != 0 %}
+                {{ el['bought'] }}
+            {% endif %}
+        </td>
+        <td>
+            {% if el['bought'] != 0 %}
+                {{ el['buy_time'] }}
+            {% endif %}
+        </td>
+        <td>
+            
+            {{ el['recomend'] }}
+        </td>
+        <td>
+            {{ el['score'] }}
+        </td>
+        <td>
+            {% if el['positives'] != [] %}
+                {% for i in el['positives'] %}
+                    {{ i }}
+                {% endfor %}
+            {% endif %}
+        </td>
+        <td>
+            {% if el['negatives'] != [] %}
+                {% for i in el['negatives'] %}
+                    {{ i }}
+                {% endfor %}
+            {% endif %}
+        </td>
+        <td>
+            {{ el['vote_y'] }} 
+        </td>
+        <td>
+            {{ el['vote_n'] }} 
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

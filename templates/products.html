@@ -9,7 +9,7 @@
     <h1>Wyscrapowane wcześniej produkty</h1>
     {% for (key,value) in products_dict.items() %}
     <div class="alert alert-info">
-        <h2><button class='btn btn-danger' style="font-size: 150%;">{{ value }}</button></h2>
+        <h2><button class='btn btn-danger' style="font-size: 150%;" ><a href="products/{{ key }}"><span style="color: silver;">{{ value }}</span></a></button></h2>
         <h3>{{ key | count }}</h3>
     </div>
     {% endfor %}

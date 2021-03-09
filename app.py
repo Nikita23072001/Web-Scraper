@@ -30,7 +30,7 @@ def count(key):
     try:
         opinions = int(Scrapper.Scrapper(key).ops[0])
     except:
-        return 0, 0, 0, 0
+        return "Żadnych opinii!"
     for i in data:
         score_sum += eval(i['score'])
 
@@ -57,6 +57,12 @@ def index():
 @app.route('/products')
 def products():
     return render_template('products.html', count = count, products_dict=products_dict)
+
+@app.route('/products/<int:key>')
+def product_detail(key):
+    p_file = open(f'products/{key}.json', 'r', encoding="utf-8")
+    data = json.load(p_file)
+    return render_template("product_detail.html", data=data)
 
 
 @app.route('/extract', methods=['POST','GET'])
