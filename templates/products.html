@@ -1,15 +1,9 @@
-{% extends 'base.html' %}
-
-{% block title %}
-    Products
-{% endblock %}
-
-{% block body %}
+{% extends 'base.html' %} {% block title %} Products {% endblock %} {% block body %}
 <div class="container">
     <h1>Wyscrapowane wcześniej produkty</h1>
     {% for (product_code,value) in products_dict.items() %}
     <div class="alert alert-info">
-        <h2><button class='btn btn-danger' style="font-size: 150%;" ><a href="products/{{ product_code }}"><span style="color: silver;">{{ value }}</span></a></button></h2>
+        <h2><a href="products/{{ product_code }}"><button class='btn-lg btn-danger'>{{ value }}</button></a></h2>
         <h3>{{ product_code | count }}</h3>
     </div>
     {% endfor %}

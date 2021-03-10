@@ -7,25 +7,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scrap.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app = Flask(__name__) #Flask
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scrap.db' #Baza dannych
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #Baza dannych
 db = SQLAlchemy(app)
 
-products_dict = {}
+products_dict = {} #słownik typu numer:imie
 for files in glob.glob('products/*.json', recursive=False):
     products_dict.update({re.findall('\d+', files)[0]:Scrapper.Scrapper(int(re.findall('\d+', files)[0])).naglowki})
 
 
-class charts():
+class charts(): #tworzenie wykresów
 
     def __init__(self, product_code):
         file = open(f'products/{product_code}.json', 'r', encoding="utf-8")
         self.data = json.load(file)
 
-    def bar(self):
+    def bar(self): #Słupkowy
         plt.rcdefaults()
-        fig, ax = plt.subplots(1)
+        fig, ax = plt.subplots()
         people = set({})
         for el in self.data:
             people.add(el['score'])
@@ -48,7 +48,7 @@ class charts():
         bar = plt
         return bar
     
-    def pie(self):
+    def pie(self): #kołowy
         labels = ['Brak rekomendacji', 'Polecam', 'Nie polecam']
         explode = (0, 0, 0.3)
         sizes = [0, 0, 0]
@@ -59,23 +59,8 @@ class charts():
                 sizes[1] += 1
             elif i['recomend'] == "Nie polecam":
                 sizes[2] += 1
-        print(sizes)
 
-    #     fig1, ax1 = plt.subplots()
-    #     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-    #     shadow=True, startangle=90)
-    #     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    
         fig, ax = plt.subplots(figsize=(9, 5), subplot_kw=dict(aspect="equal"))
-
-        # recipe = ["375 g flour",
-        #         "75 g sugar",
-        #         "250 g butter",
-        #         "300 g berries"]
-
-        # data = [float(x.split()[0]) for x in recipe]
-        # ingredients = [x.split()[-1] for x in recipe]
-
 
         def func(pct, allvals):
             absolute = int(pct/100.*np.sum(allvals))
@@ -107,7 +92,7 @@ class charts():
 #     def __repr__(self):
 #         return '<database_scrap %r>' % self.id 
 @app.template_filter('count')
-def count(key):
+def count(key): #liczba opinii, wad, zalet, srednia
     score_sum = 0
     minus = 0
     plus = 0
@@ -138,22 +123,22 @@ def count(key):
 
 @app.route('/')
 @app.route('/home')
-def index():
+def index():#podstawowy
     return render_template('index.html')
 
 @app.route('/products')
-def products():
+def products():#lista produkty
     return render_template('products.html', count = count, products_dict=products_dict)
 
 @app.route('/bar<int:key>.png')
-def bar_png(key):
+def bar_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazwyczaj)
     fig = charts(key).bar()
     output = io.BytesIO()
     fig.savefig(output)
     return Response(output.getvalue(), mimetype="image/png")
 
 @app.route('/pie<int:key>.png')
-def pie_png(key):
+def pie_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazwyczaj)
     fig = charts(key).pie()
     output = io.BytesIO()
     fig.savefig(output)
@@ -162,13 +147,13 @@ def pie_png(key):
 
 @app.route('/products/<int:product_code>', methods=['POST','GET'])
 def product_detail(product_code):
-    p_file = open(f'products/{product_code}.json', 'r', encoding="utf-8")
+    p_file = open(f'products/{product_code}.json', 'r', encoding="utf-8")  #W przypadku otwarcia pliku
     data = json.load(p_file)
     return render_template("product_detail.html", data=data, name=Scrapper.Scrapper(product_code).naglowki, bar=url_for('.bar_png', key=product_code), pie=url_for('.pie_png', key=product_code))
 
 
 @app.route('/extract', methods=['POST','GET'])
-def extract():
+def extract(): #Scrapping
     if request.method == "POST":
         try:
             product_code = request.form['product_code']
@@ -181,11 +166,11 @@ def extract():
         return render_template('extract.html')
 
 @app.route('/ERROR')
-def error():
+def error(): #W przypadku błędu instaluje wirusa(np. Korone)
     return render_template("error.html")
 
 @app.route('/about')
-def about():
+def about():# O nas
     return render_template("about.html")
 
 if __name__ == "__main__":

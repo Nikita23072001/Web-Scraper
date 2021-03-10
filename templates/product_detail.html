@@ -1,168 +1,119 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %} Products {% endblock %} {% block body %}
+<div class='container'>
+    <div class="row">
+        <div class="col" style="padding: 20px;">
+            <br>
+            <hr noshade size="3">
+            <h1>Produkt: {{name}}</h1>
+            <hr noshade size="2"><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col opinions-table-wrapper">
+            <table id="opinions-table">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Data Publikacji
+                        </th>
+                        <th>
+                            Zakupiony?
+                        </th>
+                        <th>
+                            Data Zakupu
+                        </th>
+                        <th>
+                            Rekomendacje
+                        </th>
+                        <th>
+                            Ocena
+                        </th>
+                        <th>
+                            Zalety
+                        </th>
+                        <th>
+                            Wady
+                        </th>
+                        <th>
+                            Przydatna Opinia
+                        </th>
+                        <th>
+                            Nieprzydatna
+                        </th>
+                        <th>
+                            Opinia
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for el in range(data|length) %}
+                    <tr>
+                        <td>
+                            {{ data[el]['Author'] }}
+                        </td>
+                        <td>
+                            {{ data[el]['id'] }}
+                        </td>
+                        <td>
+                            {{ data[el]['post_time'] }}
+                        </td>
+                        <td>
+                            {% if data[el]['bought'] != 0 %} {{ data[el]['bought'] }} {% endif %}
+                        </td>
+                        <td>
+                            {% if data[el]['bought'] != 0 %} {{ data[el]['buy_time'] }} {% endif %}
+                        </td>
+                        <td>
 
-{% block title %}
-    Products
-{% endblock %}
-
-{% block body %}
-<div class="container">
-    <br><hr noshade size="3">
-    <h1>Produkt: {{name}}</h1>
-    <hr noshade size="2"><br> 
-    <form id="frm-example" action="/nosuchpage" method="POST">
-    <table  id="example" class="display select" cellspacing="0" width="100%" border="2">
-        <thead>
-        <tr align="center">
-            <th><input name="select_all" value="1" type="checkbox"></th>
-            <th>
-                Name
-            </th>
-            <th> 
-                ID  
-            </th>
-            <th>
-                Data Publikacji
-            </th>
-            <th>
-                Zakupiony?
-            </th>
-            <th>
-                Data Zakupu
-            </th>
-            <th>
-                Rekomendacje
-            </th>
-            <th>
-                Ocena
-            </th>
-            <th>
-                Zalety
-            </th>
-            <th>
-                Wady
-            </th>
-            <th>
-                Przydatna Opinia 
-            </th>
-            <th>
-                Nieprzydatna 
-            </th>
-            <th>
-                Opinia
-            </th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr align="center">
-            <th></th>
-            <th>
-                Name
-            </th>
-            <th> 
-                ID  
-            </th>
-            <th>
-                Data Publikacji
-            </th>
-            <th>
-                Zakupiony?
-            </th>
-            <th>
-                Data Zakupu
-            </th>
-            <th>
-                Rekomendacje
-            </th>
-            <th>
-                Ocena
-            </th>
-            <th>
-                Zalety
-            </th>
-            <th>
-                Wady
-            </th>
-            <th>
-                Przydatna Opinia 
-            </th>
-            <th>
-                Nieprzydatna 
-            </th>
-            <th>
-                Opinia
-            </th>
-        </tr>
-    </tfoot>
-    <tbody> 
-    {% for el in range(data|length) %}
-    <tr align="center">
-        <td></td>
-        <td>
-            {{ data[el]['Author'] }}
-        </td>
-        <td> 
-            {{ data[el]['id'] }}
-        </td>
-        <td>
-            {{ data[el]['post_time'] }}
-        </td>
-        <td>
-            {% if data[el]['bought'] != 0 %}
-                {{ data[el]['bought'] }}
-            {% endif %}
-        </td>
-        <td>
-            {% if data[el]['bought'] != 0 %}
-                {{ data[el]['buy_time'] }}
-            {% endif %}
-        </td>
-        <td>
-            
-            {{ data[el]['recomend'] }}
-        </td>
-        <td>
-            {{ data[el]['score'] }}
-        </td>
-        <td>
-            {% if data[el]['positives'] != [] %}
-                {% for i in data[el]['positives'] %}
-                    {{ i }}
-                {% endfor %}
-            {% endif %}
-        </td>
-        <td>
-            {% if data[el]['negatives'] != [] %}
-                {% for i in data[el]['negatives'] %}
-                    {{ i }}
-                {% endfor %}
-            {% endif %}
-        </td>
-        <td>
-            {{ data[el]['vote_y'] }} 
-        </td>
-        <td>
-            {{ data[el]['vote_n'] }} 
-        </td>
-        <td>
-            <button style="text-align:center; color:#ec1010; padding: 2px; width: 100px;"><a href="#" data-featherlight="#bio-name">Text</a></button>
-            <div style="display:none;">
-                <div id="bio-name">
-                <h3>Text</h3>
-                <p style="font-family:Lato; font-weight:500; font-style:normal; font-size:16px; letter-spacing:.6px; line-height:2.18em; color:#13159e;" !important>
-                    {{ data[el]['text'] }}
-                </p>
-                </div>
-            </div>
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-    </table>
-    <hr>
-    </form>
-    <div class="container" align='center'>
+                            {{ data[el]['recomend'] }}
+                        </td>
+                        <td>
+                            {{ data[el]['score'] }}
+                        </td>
+                        <td>
+                            {% if data[el]['positives'] != [] %} {% for i in data[el]['positives'] %} {{ i }} {% endfor %} {% endif %}
+                        </td>
+                        <td>
+                            {% if data[el]['negatives'] != [] %} {% for i in data[el]['negatives'] %} {{ i }} {% endfor %} {% endif %}
+                        </td>
+                        <td>
+                            {{ data[el]['vote_y'] }}
+                        </td>
+                        <td>
+                            {{ data[el]['vote_n'] }}
+                        </td>
+                        <td>
+                            <a href="#" data-featherlight="#bio-name{{el}}">Treść</a>
+                            <div style="display:none;">
+                                <div id="bio-name{{el}}">
+                                    <h3>Treść Opinii</h3>
+                                    <p style="font-family:Lato; font-weight:500; font-style:normal; font-size:16px; letter-spacing:.6px; line-height:2.18em; color:#13159e;">
+                                        {{ data[el]['text'] }}
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div><br><br>
+    <div align='center'>
         <img src="{{ bar }}" alt="my plot"><br><br>
         <img src="{{ pie }}" alt="second plot"><br><br>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#opinions-table').DataTable();
+    });
+</script>
 {% endblock %}
