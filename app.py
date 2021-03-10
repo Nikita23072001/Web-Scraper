@@ -1,7 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect, Response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import Scrapper, math, json, io, charts
+import Scrapper, math, json, io, matplotlib, glob, re
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -12,7 +13,89 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 products_dict = {}
+for files in glob.glob('products/*.json', recursive=False):
+    products_dict.update({re.findall('\d+', files)[0]:Scrapper.Scrapper(int(re.findall('\d+', files)[0])).naglowki})
 
+
+class charts():
+
+    def __init__(self, product_code):
+        file = open(f'products/{product_code}.json', 'r', encoding="utf-8")
+        self.data = json.load(file)
+
+    def bar(self):
+        plt.rcdefaults()
+        fig, ax = plt.subplots(1)
+        people = set({})
+        for el in self.data:
+            people.add(el['score'])
+        people = sorted(list(people))
+        y_pos = np.arange(len(people))
+        performance = []
+        for i in range(len(people)):
+            performance.append(0)
+        for el in people:
+            for i in self.data:
+                if el == i['score']:
+                    performance[people.index(el)] += 1
+
+        ax.barh(y_pos, performance, align='center')
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(people)
+        ax.invert_yaxis()  # labels read top-to-bottom
+        ax.set_xlabel('Ilość opinii')
+        ax.set_title('Wpływ poszczególnych ocen na średnią')
+        bar = plt
+        return bar
+    
+    def pie(self):
+        labels = ['Brak rekomendacji', 'Polecam', 'Nie polecam']
+        explode = (0, 0, 0.3)
+        sizes = [0, 0, 0]
+        for i in self.data:
+            if i['recomend'] == 0:
+                sizes[0] += 1
+            elif i['recomend'] == "Polecam":
+                sizes[1] += 1
+            elif i['recomend'] == "Nie polecam":
+                sizes[2] += 1
+        print(sizes)
+
+    #     fig1, ax1 = plt.subplots()
+    #     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+    #     shadow=True, startangle=90)
+    #     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    
+        fig, ax = plt.subplots(figsize=(9, 5), subplot_kw=dict(aspect="equal"))
+
+        # recipe = ["375 g flour",
+        #         "75 g sugar",
+        #         "250 g butter",
+        #         "300 g berries"]
+
+        # data = [float(x.split()[0]) for x in recipe]
+        # ingredients = [x.split()[-1] for x in recipe]
+
+
+        def func(pct, allvals):
+            absolute = int(pct/100.*np.sum(allvals))
+            return "{:.1f}%\n({:d} opinii)".format(pct, absolute)
+
+
+        wedges, texts, autotexts = ax.pie(sizes, autopct=lambda pct: func(pct, sizes),
+                                                textprops=dict(color="black"), explode=explode)
+
+        ax.legend(wedges, labels,
+                        title="Legenda",
+                        loc="center left",
+                        bbox_to_anchor=(1, 0, 0.5, 1))
+
+        plt.setp(autotexts, size=10, weight="bold")
+
+        ax.set_title("Udział poszczególnych rekomendacji w ogólnej liczbie opinii")
+        pie = plt
+
+        return pie
 
 # class database_scrap(db.Model):
 #     id  = db.Column(db.Integer, primary_key=True)
@@ -62,24 +145,26 @@ def index():
 def products():
     return render_template('products.html', count = count, products_dict=products_dict)
 
-# @app.route('/<int:product_code>.png')
-# def plot_png(product_code):
-#     fig = charts.charts(product_code).counter()
-#     output = io.BytesIO()
-#     return Response(io.BytesIO(), status=200, mimetype="image/png")
+@app.route('/bar<int:key>.png')
+def bar_png(key):
+    fig = charts(key).bar()
+    output = io.BytesIO()
+    fig.savefig(output)
+    return Response(output.getvalue(), mimetype="image/png")
+
+@app.route('/pie<int:key>.png')
+def pie_png(key):
+    fig = charts(key).pie()
+    output = io.BytesIO()
+    fig.savefig(output)
+    return Response(output.getvalue(), mimetype="image/png")
 
 
-@app.route('/products/<int:product_code>')
+@app.route('/products/<int:product_code>', methods=['POST','GET'])
 def product_detail(product_code):
     p_file = open(f'products/{product_code}.json', 'r', encoding="utf-8")
     data = json.load(p_file)
-
-    def plot_png(product_code):
-        fig = charts.charts(product_code).counter()
-        output = io.BytesIO()
-        return Response(io.BytesIO(), status=200, mimetype="image/png")
-
-    return render_template("product_detail.html", data=data, name=Scrapper.Scrapper(product_code).naglowki, plot=f'{plot_png(product_code)}.png')
+    return render_template("product_detail.html", data=data, name=Scrapper.Scrapper(product_code).naglowki, bar=url_for('.bar_png', key=product_code), pie=url_for('.pie_png', key=product_code))
 
 
 @app.route('/extract', methods=['POST','GET'])
@@ -89,9 +174,9 @@ def extract():
             product_code = request.form['product_code']
             Scrapper.Scrapper(product_code).main_func()
             products_dict.update({product_code:Scrapper.Scrapper(product_code).naglowki})
-            return redirect('/products/<int:product_code>')
+            return redirect(url_for('.product_detail', product_code=product_code))
         except:
-            return redirect('/ERROR')
+            return redirect(url_for('.error'))
     else:
         return render_template('extract.html')
 

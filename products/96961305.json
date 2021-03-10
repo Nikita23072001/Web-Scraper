@@ -370,6 +370,29 @@
         "vote_y": 0
     },
     {
+        "Author": "W...o",
+        "bought": true,
+        "buy_time": "2021-02-24 12:52:42",
+        "id": 14089439,
+        "negatives": [],
+        "positives": [
+            "czas pracy na baterii",
+            "funkcję",
+            "funkcjonalność",
+            "jakość ekranu",
+            "komfortowość",
+            "płynna rozrywka",
+            "szybka praca",
+            "wydajność"
+        ],
+        "post_time": "2021-03-10 14:08:19",
+        "recomend": "Polecam",
+        "score": "5/5",
+        "text": "super tablet w przyzwoitej cenie",
+        "vote_n": 0,
+        "vote_y": 0
+    },
+    {
         "Author": "m...w",
         "bought": true,
         "buy_time": "2020-12-05 08:36:42",
