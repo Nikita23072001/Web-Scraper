@@ -1,7 +1,10 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, Response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import Scrapper, math, json
+import Scrapper, math, json, io, charts
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scrap.db'
@@ -49,6 +52,7 @@ def count(key):
     return f"Liczba Opinii: {opinions} Średnia Ocena:  {round(score_sum/len(data)*5, 2)}, Liczba Wad: {minus}, Liczba Zalet: {plus}"
 
 
+
 @app.route('/')
 @app.route('/home')
 def index():
@@ -58,11 +62,24 @@ def index():
 def products():
     return render_template('products.html', count = count, products_dict=products_dict)
 
-@app.route('/products/<int:key>')
-def product_detail(key):
-    p_file = open(f'products/{key}.json', 'r', encoding="utf-8")
+# @app.route('/<int:product_code>.png')
+# def plot_png(product_code):
+#     fig = charts.charts(product_code).counter()
+#     output = io.BytesIO()
+#     return Response(io.BytesIO(), status=200, mimetype="image/png")
+
+
+@app.route('/products/<int:product_code>')
+def product_detail(product_code):
+    p_file = open(f'products/{product_code}.json', 'r', encoding="utf-8")
     data = json.load(p_file)
-    return render_template("product_detail.html", data=data)
+
+    def plot_png(product_code):
+        fig = charts.charts(product_code).counter()
+        output = io.BytesIO()
+        return Response(io.BytesIO(), status=200, mimetype="image/png")
+
+    return render_template("product_detail.html", data=data, name=Scrapper.Scrapper(product_code).naglowki, plot=f'{plot_png(product_code)}.png')
 
 
 @app.route('/extract', methods=['POST','GET'])
@@ -72,7 +89,7 @@ def extract():
             product_code = request.form['product_code']
             Scrapper.Scrapper(product_code).main_func()
             products_dict.update({product_code:Scrapper.Scrapper(product_code).naglowki})
-            return redirect('/products')
+            return redirect('/products/<int:product_code>')
         except:
             return redirect('/ERROR')
     else:

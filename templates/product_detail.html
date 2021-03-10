@@ -6,9 +6,11 @@
 
 {% block body %}
 <div class="container">
-    <hr><br> 
+    <br><hr noshade size="3">
+    <h1>Produkt: {{name}}</h1>
+    <hr noshade size="2"><br> 
     <form id="frm-example" action="/nosuchpage" method="POST">
-    <table  class="display select" cellspacing="0" width="100%" border="2">
+    <table  id="example" class="display select" cellspacing="0" width="100%" border="2">
         <thead>
         <tr align="center">
             <th><input name="select_all" value="1" type="checkbox"></th>
@@ -46,7 +48,7 @@
                 Nieprzydatna 
             </th>
             <th>
-                Treść opinii
+                Opinia
             </th>
         </tr>
     </thead>
@@ -87,13 +89,12 @@
                 Nieprzydatna 
             </th>
             <th>
-                Treść opinii
+                Opinia
             </th>
         </tr>
     </tfoot>
-        
+    <tbody> 
     {% for el in range(data|length) %}
-    <tbody>
     <tr align="center">
         <td></td>
         <td>
@@ -143,21 +144,22 @@
             {{ data[el]['vote_n'] }} 
         </td>
         <td>
-            <button style="text-align:center; color:#727272; padding: 2px;"><a href="#" data-featherlight="#bio-name">Text</a></button>
+            <button style="text-align:center; color:#ec1010; padding: 2px; width: 100px;"><a href="#" data-featherlight="#bio-name">Text</a></button>
             <div style="display:none;">
                 <div id="bio-name">
                 <h3>Text</h3>
-                <p style="font-family:Lato; font-weight:500; font-style:normal; font-size:12px; letter-spacing:.4px; line-height:2.18em; color:#999999;" !important>
+                <p style="font-family:Lato; font-weight:500; font-style:normal; font-size:16px; letter-spacing:.6px; line-height:2.18em; color:#13159e;" !important>
                     {{ data[el]['text'] }}
                 </p>
                 </div>
             </div>
         </td>
     </tr>
-    </tbody>
     {% endfor %}
+    </tbody>
     </table>
     <hr>
     </form>
+    <img src="{{ plot }}" alt="my plot" method="post">
 </div>
 {% endblock %}
