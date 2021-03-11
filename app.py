@@ -46,6 +46,7 @@ class charts(): #tworzenie wykresów
         ax.set_xlabel('Ilość opinii')
         ax.set_title('Wpływ poszczególnych ocen na średnią')
         bar = plt
+        plt.show()
         return bar
     
     def pie(self): #kołowy
@@ -142,6 +143,7 @@ def pie_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazw
     fig = charts(key).pie()
     output = io.BytesIO()
     fig.savefig(output)
+    print(output)
     return Response(output.getvalue(), mimetype="image/png")
 
 
