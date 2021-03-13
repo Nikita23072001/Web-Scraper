@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=0.1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="//cdn.rawgit.com/noelboss/featherlight/1.3.2/release/featherlight.min.css" type="text/css" rel="stylesheet" title="Featherlight Styles">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+    <script src="//cdn.rawgit.com/noelboss/featherlight/1.3.2/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark absolute bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand " href="/home ">Web-Scrapper by Inte[N]s1Ve_^|Nick</a>
+            <button class="navbar-toggler " type="button " data-bs-toggle="collapse " data-bs-target="#navbarCollapse " aria-controls="navbarCollapse " aria-expanded="false " aria-label="Toggle navigation ">
+                <span class="navbar-toggler-icon "></span>
+              </button>
+            <div style="left: 150px; right: 0; ">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 ">
+                    <li class="nav-item ">
+                        <a class="nav-link active" aria-current="page " href="/home ">Strona Głowna</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link active" aria-current="page " href="/products ">Lista Produktów</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link active" aria-current="page " href="/extract ">Ekstrakcja opinii</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link active" aria-current="page " href="/about ">O autorze</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% block body %}{% endblock %}
+</body>
+
+</html>

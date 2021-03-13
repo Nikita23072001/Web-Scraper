@@ -1,0 +1,41 @@
+input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+.padding {
+    padding: 8px;
+}
+
+body {
+    background-color: bisque;
+}
+
+table.dataTable.select tbody tr,
+table.dataTable thead th:first-child {
+    cursor: pointer;
+}
+
+a.nav-link.active:hover {
+    color: #555555;
+    background-color: #fd0404;
+    cursor: pointer;
+    color: rgb(219, 27, 27);
+    /* Цвет ссылки */
+}
+
+.opinions-table-wrapper {
+    background-color: white;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+table#opinions-table {
+    border: solid 2px red;
+}
+
+tbody {
+    overflow-y: scroll;
+}
