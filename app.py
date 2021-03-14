@@ -11,14 +11,16 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client.scrapped_data
 products_data = db.products_data
 
+products_dict = {}
 
 
+for i in glob.glob('products/*.json', recursive=False):
+    prod_num = str(re.findall('\d+', i)[0])
+    print(prod_num)
+    products_dict.update({prod_num:Scrapper.Scrapper(prod_num).naglowki})
 
-products_dict = {} #słownik typu numer:imie
-for files in glob.glob('products/*.json', recursive=False):
-    products_dict.update({re.findall('\d+', files)[0]:Scrapper.Scrapper(int(re.findall('\d+', files)[0])).naglowki})
 
-products_data.insert_one(products_dict)
+# products_data.insert_one(products_dict)
 
 # products_data.insert_one(dict)
 # products_data.find_one({"key": "value"})
@@ -52,9 +54,8 @@ class charts(): #tworzenie wykresów
         ax.invert_yaxis()  # labels read top-to-bottom
         ax.set_xlabel('Ilość opinii')
         ax.set_title('Wpływ poszczególnych ocen na średnią')
-        bar = plt
-        plt.show()
-        return bar
+
+        return plt
     
     def pie(self): #kołowy
         labels = ['Brak rekomendacji', 'Polecam', 'Nie polecam']
@@ -86,9 +87,8 @@ class charts(): #tworzenie wykresów
         plt.setp(autotexts, size=10, weight="bold")
 
         ax.set_title("Udział poszczególnych rekomendacji w ogólnej liczbie opinii")
-        pie = plt
 
-        return pie
+        return plt
 
 @app.template_filter('count')
 def count(key): #liczba opinii, wad, zalet, srednia
@@ -140,9 +140,9 @@ def bar_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazw
 def pie_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazwyczaj)
     fig = charts(key).pie()
     output = io.BytesIO()
-    fig.savefig(output)
-    print(output)
+    fig.savefig(output, format='png')
     return Response(output.getvalue(), mimetype="image/png")
+
 
 
 @app.route('/products/<int:product_code>', methods=['POST','GET'])
@@ -174,4 +174,4 @@ def about():# O nas
     return render_template("about.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, threaded=False)

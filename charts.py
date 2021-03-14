@@ -1,6 +1,6 @@
+import json
 import matplotlib.pyplot as plt
 import numpy as np
-import json
 
 class charts(): #tworzenie wykresów
 
@@ -30,9 +30,8 @@ class charts(): #tworzenie wykresów
         ax.invert_yaxis()  # labels read top-to-bottom
         ax.set_xlabel('Ilość opinii')
         ax.set_title('Wpływ poszczególnych ocen na średnią')
-        bar = plt
-        plt.show()
-        return bar
+
+        return plt
     
     def pie(self): #kołowy
         labels = ['Brak rekomendacji', 'Polecam', 'Nie polecam']
@@ -64,9 +63,5 @@ class charts(): #tworzenie wykresów
         plt.setp(autotexts, size=10, weight="bold")
 
         ax.set_title("Udział poszczególnych rekomendacji w ogólnej liczbie opinii")
-        pie = plt
 
-        return pie
-
-# charts(14670898).bar().show()
-charts(14670898).pie().show()
+        return plt
