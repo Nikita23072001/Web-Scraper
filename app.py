@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, Response
-import Scrapper, math, json, io, matplotlib, glob, re, pymongo
+import Scrapper, math, json, io, matplotlib, re, pymongo
 from pymongo import MongoClient
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -11,13 +11,12 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client.scrapped_data
 products_data = db.products_data
 
-products_dict = {}
 
 
-for i in glob.glob('products/*.json', recursive=False):
-    prod_num = str(re.findall('\d+', i)[0])
-    print(prod_num)
-    products_dict.update({prod_num:Scrapper.Scrapper(prod_num).naglowki})
+# for i in glob.glob('products/*.json', recursive=False):
+#     prod_num = str(re.findall('\d+', i)[0])
+#     print(prod_num)
+#     products_dict.update({prod_num:Scrapper.Scrapper(prod_num).naglowki})
 
 
 # products_data.insert_one(products_dict)
@@ -91,12 +90,11 @@ class charts(): #tworzenie wykresów
         return plt
 
 @app.template_filter('count')
-def count(key): #liczba opinii, wad, zalet, srednia
+def count(): #liczba opinii, wad, zalet, srednia
     score_sum = 0
     minus = 0
     plus = 0
-    file = open(f'products/{key}.json')
-    data = [el for el in json.load(file)]
+    data = [el for el in products_data.find({})]
     try:
         opinions = int(Scrapper.Scrapper(key).ops[0])
     except:
@@ -127,7 +125,9 @@ def index():#podstawowy
 
 @app.route('/products')
 def products():#lista produkty
-    return render_template('products.html', count = count, products_dict=products_dict)
+    for data in products_data.find({}):
+        print(data)
+    return render_template('products.html', count = count, products_dict=data)
 
 @app.route('/bar<int:key>.png')
 def bar_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazwyczaj)
@@ -147,8 +147,7 @@ def pie_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazw
 
 @app.route('/products/<int:product_code>', methods=['POST','GET'])
 def product_detail(product_code):
-    p_file = open(f'products/{product_code}.json', 'r', encoding="utf-8")  #W przypadku otwarcia pliku
-    data = json.load(p_file)
+    data = json.load(products_data.find_one({"product_code": product_code})["opinions"])
     return render_template("product_detail.html", data=data, name=Scrapper.Scrapper(product_code).naglowki, bar=url_for('.bar_png', key=product_code), pie=url_for('.pie_png', key=product_code))
 
 
@@ -157,8 +156,8 @@ def extract(): #Scrapping
     if request.method == "POST":
         try:
             product_code = request.form['product_code']
-            Scrapper.Scrapper(product_code).main_func()
-            products_dict.update({product_code:Scrapper.Scrapper(product_code).naglowki})
+            products_dict = {"product_code":product_code, "name":Scrapper.Scrapper(product_code).naglowki, "opinions":Scrapper.Scrapper(product_code).main_func()}
+            products_data.insert_one(products_dict)
             return redirect(url_for('.product_detail', product_code=product_code))
         except:
             return redirect(url_for('.error'))
