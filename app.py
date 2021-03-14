@@ -83,15 +83,6 @@ class charts(): #tworzenie wykresów
 
         return pie
 
-# class database_scrap(db.Model):
-#     id  = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), nullable=False)
-#     product_code = db.Column(db.Integer, nullable=False)
-#     revies = db.Column(db.Text, nullable=False)
-#     date = db.Column(db.DateTime, default=datetime.utcnow)
-
-#     def __repr__(self):
-#         return '<database_scrap %r>' % self.id 
 @app.template_filter('count')
 def count(key): #liczba opinii, wad, zalet, srednia
     score_sum = 0
@@ -176,4 +167,4 @@ def about():# O nas
     return render_template("about.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, threaded=False)

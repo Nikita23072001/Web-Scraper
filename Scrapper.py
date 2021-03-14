@@ -21,6 +21,8 @@ class Scrapper():
                 self.pages_number = 0
             else:
                 self.pages_number = math.ceil(int(self.ops[0])/10)
+                if self.pages_number > 50:
+                    self.pages_number = 50
 
             self.naglowki = self.bs.find('h1').get_text()
             print(self.naglowki)
