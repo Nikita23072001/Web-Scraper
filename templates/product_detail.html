@@ -8,109 +8,118 @@
             <hr noshade size="2"><br>
         </div>
     </div>
-    <div class="row">
-        <div class="col opinions-table-wrapper">
-            <table id="opinions-table">
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            ID
-                        </th>
-                        <th>
-                            Data Publikacji
-                        </th>
-                        <th>
-                            Zakupiony?
-                        </th>
-                        <th>
-                            Data Zakupu
-                        </th>
-                        <th>
-                            Rekomendacje
-                        </th>
-                        <th>
-                            Ocena
-                        </th>
-                        <th>
-                            Zalety
-                        </th>
-                        <th>
-                            Wady
-                        </th>
-                        <th>
-                            Przydatna Opinia
-                        </th>
-                        <th>
-                            Nieprzydatna
-                        </th>
-                        <th>
-                            Opinia
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for el in range(data|length) %}
-                    <tr>
-                        <td>
-                            {{ data[el]['Author'] }}
-                        </td>
-                        <td>
-                            {{ data[el]['id'] }}
-                        </td>
-                        <td>
-                            {{ data[el]['post_time'] }}
-                        </td>
-                        <td>
-                            {% if data[el]['bought'] != 0 %} {{ data[el]['bought'] }} {% endif %}
-                        </td>
-                        <td>
-                            {% if data[el]['bought'] != 0 %} {{ data[el]['buy_time'] }} {% endif %}
-                        </td>
-                        <td>
-
-                            {{ data[el]['recomend'] }}
-                        </td>
-                        <td>
-                            {{ data[el]['score'] }}
-                        </td>
-                        <td>
-                            {% if data[el]['positives'] != [] %} {% for i in data[el]['positives'] %} {{ i }} {% endfor %} {% endif %}
-                        </td>
-                        <td>
-                            {% if data[el]['negatives'] != [] %} {% for i in data[el]['negatives'] %} {{ i }} {% endfor %} {% endif %}
-                        </td>
-                        <td>
-                            {{ data[el]['vote_y'] }}
-                        </td>
-                        <td>
-                            {{ data[el]['vote_n'] }}
-                        </td>
-                        <td>
-                            <a href="#" data-featherlight="#bio-name{{el}}">Treść</a>
-                            <div style="display:none;">
-                                <div id="bio-name{{el}}">
-                                    <h3>Treść Opinii</h3>
-                                    <p style="font-family:Lato; font-weight:500; font-style:normal; font-size:16px; letter-spacing:.6px; line-height:2.18em; color:#13159e;">
-                                        {{ data[el]['text'] }}
-                                    </p>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <hr>
-        </div>
-    </div><br><br>
-    <div align='center'>
-        <img src="{{ bar }}" alt="my plot"><br><br>
-        <img src="{{ pie }}" alt="second plot"><br><br>
-    </div>
 </div>
+<div class="row" style="width: 90%; margin: 0 auto">
+    <div class="col opinions-table-wrapper">
+        <div align="center">
+            <a href="#" data-featherlight="#bio-name{{el}}"><button class="btn btn-success">Wykresy</button></a>
+            <div style="display:none;">
+                <div id="bio-name{{el}}">
+                    <h3>Wykresy</h3>
+                    <div align='center'>
+                        <img src="{{ bar }}" alt="my plot"><br><br>
+                        <img src="{{ pie }}" alt="second plot"><br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <table id="opinions-table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Data Publikacji
+                    </th>
+                    <th>
+                        Zakupiony?
+                    </th>
+                    <th>
+                        Data Zakupu
+                    </th>
+                    <th>
+                        Rekomendacje
+                    </th>
+                    <th>
+                        Ocena
+                    </th>
+                    <th>
+                        Zalety
+                    </th>
+                    <th>
+                        Wady
+                    </th>
+                    <th>
+                        Przydatna Opinia
+                    </th>
+                    <th>
+                        Nieprzydatna
+                    </th>
+                    <th>
+                        Opinia
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for el in range(data|length) %}
+                <tr>
+                    <td>
+                        {{ data[el]['Author'] }}
+                    </td>
+                    <td>
+                        {{ data[el]['id'] }}
+                    </td>
+                    <td>
+                        {{ data[el]['post_time'] }}
+                    </td>
+                    <td>
+                        {% if data[el]['bought'] != 0 %} {{ data[el]['bought'] }} {% endif %}
+                    </td>
+                    <td>
+                        {% if data[el]['bought'] != 0 %} {{ data[el]['buy_time'] }} {% endif %}
+                    </td>
+                    <td>
+
+                        {{ data[el]['recomend'] }}
+                    </td>
+                    <td>
+                        {{ data[el]['score'] }}
+                    </td>
+                    <td>
+                        {% if data[el]['positives'] != [] %} {% for i in data[el]['positives'] %} {{ i }} {% endfor %} {% endif %}
+                    </td>
+                    <td>
+                        {% if data[el]['negatives'] != [] %} {% for i in data[el]['negatives'] %} {{ i }} {% endfor %} {% endif %}
+                    </td>
+                    <td>
+                        {{ data[el]['vote_y'] }}
+                    </td>
+                    <td>
+                        {{ data[el]['vote_n'] }}
+                    </td>
+                    <td>
+                        <a href="#" data-featherlight="#bio-name{{el}}">Treść</a>
+                        <div style="display:none;">
+                            <div id="bio-name{{el}}">
+                                <h3>Treść Opinii</h3>
+                                <p style="font-family:Lato; font-weight:500; font-style:normal; font-size:16px; letter-spacing:.6px; line-height:2.18em; color:#13159e;">
+                                    {{ data[el]['text'] }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+    </div>
+</div><br><br>
 <script>
     $(document).ready(function() {
         $('#opinions-table').DataTable();

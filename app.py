@@ -1,7 +1,7 @@
-from flask import Flask, render_template, url_for, request, redirect, Response
+from flask import Flask, render_template, url_for, request, redirect, Response, send_file
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import Scrapper, math, json, io, matplotlib, glob, re
+import Scrapper, math, json, io, matplotlib, glob, re, module, os, time
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
@@ -46,7 +46,6 @@ class charts(): #tworzenie wykresów
         ax.set_xlabel('Ilość opinii')
         ax.set_title('Wpływ poszczególnych ocen na średnią')
         bar = plt
-        plt.show()
         return bar
     
     def pie(self): #kołowy
@@ -112,6 +111,30 @@ def count(key): #liczba opinii, wad, zalet, srednia
     return f"Liczba Opinii: {opinions} Średnia Ocena:  {round(score_sum/len(data)*5, 2)}, Liczba Wad: {minus}, Liczba Zalet: {plus}"
 
 
+@app.route('/<path>.json')
+def jsonfile(path):
+    return send_file(f'products/{path}.json', as_attachment=True)
+
+@app.route('/<path>.csv')
+def csv(path):
+    module.Convertising(path).convert_csv()
+    return send_file(f'products/{path}.csv', as_attachment=True)
+   
+@app.route('/<path>.xlsx')
+def xlsx(path):
+    module.Convertising(path).convert_xlsx()
+    return send_file(f'products/{path}.xlsx', as_attachment=True)
+
+def delete_files():
+    files1 = glob.glob('products/*.csv', recursive=False)
+    files2 = glob.glob('products/*.xlsx', recursive=False)
+    for file in files1:
+        os.remove(file)
+
+    for file in files2:
+        os.remove(file)
+
+
 
 @app.route('/')
 @app.route('/home')
@@ -120,6 +143,7 @@ def index():#podstawowy
 
 @app.route('/products')
 def products():#lista produkty
+    delete_files()
     return render_template('products.html', count = count, products_dict=products_dict)
 
 @app.route('/bar<int:key>.png')
@@ -134,7 +158,6 @@ def pie_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazw
     fig = charts(key).pie()
     output = io.BytesIO()
     fig.savefig(output)
-    print(output)
     return Response(output.getvalue(), mimetype="image/png")
 
 

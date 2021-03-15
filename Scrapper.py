@@ -17,7 +17,6 @@ class Scrapper():
             self.bs = BeautifulSoup(self.html_first.read(), 'html.parser')
             self.ops = re.findall('\d+', self.bs.find_all('span', class_="page-tab__title js_prevent-middle-button-click")[2].get_text())
             if self.ops == []:
-                print("Nie ma")
                 self.pages_number = 0
             else:
                 self.pages_number = math.ceil(int(self.ops[0])/10)
@@ -25,8 +24,6 @@ class Scrapper():
                     self.pages_number = 50
 
             self.naglowki = self.bs.find('h1').get_text()
-            print(self.naglowki)
-
 
             self.array =[]
         except:
