@@ -82,8 +82,8 @@ def count(key): #liczba opinii, wad, zalet, srednia
     score_sum = 0
     minus = 0
     plus = 0
-    file = open(f'products/{key}.json')
-    data = [el for el in json.load(file)]
+    file1 = open(f'products/{key}.json', 'r', encoding='utf-8')
+    data = [el for el in json.load(file1)]
     try:
         opinions = int(Scrapper.Scrapper(key).ops[0])
     except:

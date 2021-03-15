@@ -6,12 +6,12 @@
     <div class="alert alert-info">
         <h2><a href="products/{{ product_code }}"><button class='btn-lg'>{{ value }}</button></a></h2>
         <h3>{{ product_code | count }}</h3>
-        <a href="{{ url_for('.jsonfile', path=product_code) }}" style="left: 80%;"><button type="submit" class='btn-lg'>JSON</button></a>
+        <a href="{{ url_for('.jsonfile', path=product_code) }}"><button type="submit" class='btn-lg' style="font-size: small;">JSON</button></a>
         <a href="{{ url_for('.csv', path=product_code) }}">
-            <button type="submit" class='btn-lg'>CSV</button>
+            <button type="submit" class='btn-lg' style="font-size: small;">CSV</button>
         </a>
         <a href="{{ url_for('.xlsx', path=product_code) }}">
-            <button type="submit" class='btn-lg'>XLSX</button>
+            <button type="submit" class='btn-lg' style="font-size: small;">XLSX</button>
         </a>
     </div>
     {% endfor %} {{ delete }}
