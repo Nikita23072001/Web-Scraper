@@ -10,7 +10,7 @@ input[type=number] {
 }
 
 body {
-    background-color: bisque;
+    background-color: rgb(176, 213, 255);
 }
 
 table.dataTable.select tbody tr,
@@ -19,11 +19,13 @@ table.dataTable thead th:first-child {
 }
 
 a.nav-link.active:hover {
-    color: #555555;
-    background-color: #fd0404;
+    background-color: #3485ff;
     cursor: pointer;
-    color: rgb(219, 27, 27);
     /* Цвет ссылки */
+}
+
+span:hover {
+    color: black;
 }
 
 .opinions-table-wrapper {
@@ -39,4 +41,8 @@ table#opinions-table {
 
 tbody {
     overflow-y: scroll;
+}
+
+button.btn-lg {
+    background-color: rgb(240, 114, 114);
 }

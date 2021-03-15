@@ -1,16 +1,17 @@
 {% extends 'base.html' %} {% block title %} Products {% endblock %} {% block body %}
+<br>
 <div class="container">
-    <h1>Wyscrapowane wcześniej produkty</h1>
-    {% for (product_code,value) in products_dict.items() %}
+    <h1>Produkty</h1>
+    <br> {% for (product_code,value) in products_dict.items() %}
     <div class="alert alert-info">
-        <h2><a href="products/{{ product_code }}"><button class='btn-lg btn-danger'>{{ value }}</button></a></h2>
+        <h2><a href="products/{{ product_code }}"><button class='btn-lg'>{{ value }}</button></a></h2>
         <h3>{{ product_code | count }}</h3>
-        <a href="{{ url_for('.jsonfile', path=product_code) }}"><button type="submit">JSON</button></a>
+        <a href="{{ url_for('.jsonfile', path=product_code) }}" style="left: 80%;"><button type="submit" class='btn-lg'>JSON</button></a>
         <a href="{{ url_for('.csv', path=product_code) }}">
-            <button type="submit">CSV</button>
+            <button type="submit" class='btn-lg'>CSV</button>
         </a>
         <a href="{{ url_for('.xlsx', path=product_code) }}">
-            <button type="submit">XLSX</button>
+            <button type="submit" class='btn-lg'>XLSX</button>
         </a>
     </div>
     {% endfor %} {{ delete }}
