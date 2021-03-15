@@ -1,6 +1,4 @@
 from flask import Flask, render_template, url_for, request, redirect, Response, send_file
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 import Scrapper, math, json, io, matplotlib, glob, re, module, os, time
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -8,9 +6,6 @@ import numpy as np
 
 
 app = Flask(__name__) #Flask
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scrap.db' #Baza dannych
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #Baza dannych
-db = SQLAlchemy(app)
 
 products_dict = {} #słownik typu numer:imie
 for files in glob.glob('products/*.json', recursive=False):
