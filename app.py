@@ -160,7 +160,13 @@ def pie_png(key):#plik png jest przechowywany w bufforze w postaci Binarnej(zazw
 def product_detail(product_code):
     p_file = open(f'products/{product_code}.json', 'r', encoding="utf-8")  #W przypadku otwarcia pliku
     data = json.load(p_file)
-    return render_template("product_detail.html", data=data, name=Scrapper.Scrapper(product_code).naglowki, bar=url_for('.bar_png', key=product_code), pie=url_for('.pie_png', key=product_code))
+    return render_template("product_detail.html", data=data, 
+                                name=Scrapper.Scrapper(product_code).naglowki, 
+                                bar=url_for('.bar_png', key=product_code), 
+                                pie=url_for('.pie_png', key=product_code), 
+                                jsonfile = url_for('.jsonfile', path=product_code), 
+                                csv=url_for('.csv', path=product_code), 
+                                xlsx=url_for('.xlsx', path=product_code))
 
 
 @app.route('/extract', methods=['POST','GET'])
